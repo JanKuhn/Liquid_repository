@@ -1,0 +1,26 @@
+{%- assign link_count = 0 -%}
+{% for link in main_menu.links %}
+  {%- assign link_count = link_count | plus: 1 -%}
+{% endfor %}
+{%- assign link_count_half = link_count | divided_by: 2 -%}
+
+<div class="header-item header-item--logo-split" role="navigation" aria-label="Primary">
+  <div class="header-item header-item--split-left">
+    <div id="open-nav" onclick="openNav()" style="width:50px">{% include 'icon-select' %}</div>
+  </div>
+  <div class="header-item header-item--logo" style="margin-right:370px">
+    {% include 'header-logo-block' %}
+  </div>
+  <div class="text-right" style="margin-right:0px">
+    <div id="collection" style="width:120px">{% include 'icon-heart' %}</div>
+  </div>
+</div>
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "50%";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0%";
+}
+</script>

@@ -1,0 +1,177 @@
+{%- assign main_menu = linklists[section.settings.main_menu_link_list] -%}
+{% unless limit %}
+  {%- assign limit = main_menu.links.size -%}
+{% endunless %}
+{% unless offset %}
+  {%- assign offset = 0 -%}
+{% endunless %}
+<footer class="site-footer">
+  {% if section.settings.show_newsletter %}
+    <div class="site-footer__section site-footer__section--newsletter" data-aos>
+      <div class="page-width">
+        {% if section.settings.newsletter_title != blank %}
+          <div class="h2 appear-delay">{{ section.settings.newsletter_title }}</div>
+        {% endif %}
+
+        {% if section.settings.newsletter_richtext != blank %}
+          <div class="rte rte--block appear-delay-1">
+            {{ section.settings.newsletter_richtext }}
+          </div>
+        {% endif %}
+
+        <div class="appear-delay-2">
+          {% include 'newsletter-form', section_id: section.id, snippet_context: 'footer' %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="page-width">
+    <div class="row">
+      <div class="col-md-2 footer-lularu-menu">
+        <div class="cat-head">LULARU</div>
+{% for link in linklists.main-menu.links %}
+ 
+      {%if link.title=="maintop" %}        
+    {% for child_link in link.links %}
+      
+        <a href= "{{ child_link.url }}" class="footer-description" style="color:black; font-size:14px">{{ child_link.title }}</a><br>
+    {% endfor %}
+        {%endif %}
+    
+{% endfor %}
+      </div>
+      <div class="col-md-3 footer-customer-service">
+        <div class="cat-head">Customer Service</br></div>
+    <div class="footer-description" style="font-size:14px"><div style="padding:3px">For all enquires</div>
+    <div style="padding:3px">UK 020 123 4567</div>
+  <div style="padding:3px">Worldwide+44020 123 4567</div></br>
+<div style="padding-top:6px">Email info@luralu.com</div>
+    	</div>
+      </div>
+      <div class="col-md-3 footer-connect">
+        <div class="cat-head">Connect with US</div><br>
+            <a class="social-icons__link" href="{{ settings.social_facebook_link | escape }}" aria-describedby="a11y-external-message" class="footer-description" style="color:black; font-size:23px:padding:4px">
+                  {% include 'icon-facebook' %}
+                  <span class="icon__fallback-text">Facebook</span>
+                </a>&nbsp
+                <a class="social-icons__link" href="{{ settings.social_twitter_link | escape }}" aria-describedby="a11y-external-message" class="footer-description" style="color:black; font-size:14px">
+                  {% include 'icon-twitter' %}
+                  <span class="icon__fallback-text">Twitter</span>
+                </a>&nbsp
+                <a class="social-icons__link" href="{{ settings.social_pinterest_link | escape }}" aria-describedby="a11y-external-message" class="footer-description" style="color:black; font-size:14px">
+                  {% include 'icon-pinterest' %}
+                  <span class="icon__fallback-text">Pinterest</span>
+                </a>&nbsp
+                <a class="social-icons__link" href="{{ settings.social_instagram_link | escape }}" aria-describedby="a11y-external-message" class="footer-description" style="color:black; font-size:14px">
+                  {% include 'icon-instagram' %}
+                  <span class="icon__fallback-text">Instagram</span>
+                </a>
+      </div>
+      <div class="col-md-4 footer-logo">
+        <img class="small--hide" src="//cdn.shopify.com/s/files/1/0290/7829/0525/files/LULA-RU_Logo_200x.png?v=1575557454" srcset="//cdn.shopify.com/s/files/1/0290/7829/0525/files/LULA-RU_Logo_200x.png?v=1575557454 1x, //cdn.shopify.com/s/files/1/0290/7829/0525/files/LULA-RU_Logo_200x@2x.png?v=1575557454 2x" alt="LULA-RU" itemprop="logo">
+      </div>
+      
+    </div>
+
+
+    {% if section.settings.show_social_icons %}
+      <div class="site-footer__section">
+        {% include 'social-icons', social_class: 'footer__social' %}
+      </div>
+    {% endif %}
+
+    {% if linklists[section.settings.menu].links.size > 0 %}
+      <div class="site-footer__section">
+        <ul class="no-bullets inline-list site-footer__linklist">
+          {% for link in linklists[section.settings.menu].links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_payment_icons %}
+      {% unless shop.enabled_payment_types == empty %}
+        <div class="site-footer__section">
+          <ul class="inline-list payment-icons">
+            {% for type in shop.enabled_payment_types %}
+              <li class="icon--payment">
+                {{ type | payment_type_svg_tag: class:'icon icon--full-color' }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endunless %}
+    {% endif %}
+
+
+    <div class="site-footer__section site-footer__copyright">
+      {% if section.settings.show_copyright %}
+        <span>
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}
+          {% if section.settings.copyright_text != blank %}
+            {{ section.settings.copyright_text }}
+          {% endif %}
+        </span>
+      {% endif %}
+      <!--<span class="footer__powered_by">{{ powered_by_link }}</span>-->
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_newsletter",
+        "label": "Show newsletter signup",
+        "info": "Customers who subscribe will have their email address added to the 'accepts marketing' [customer list](/admin/customers?query=&accepts_marketing=1).",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "label": "Newsletter heading",
+        "default": "Sign up and save"
+      },
+      {
+        "type": "richtext",
+        "id": "newsletter_richtext",
+        "label": "Text",
+        "default": "<p>Let customers know about the key benefits of joining your newsletter.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_social_icons",
+        "label": "Show social icons",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Choose a menu",
+        "default": "footer",
+        "info": "Optional. This menu won't show dropdown items"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_copyright",
+        "label": "Show copyright"
+      },
+      {
+        "type": "text",
+        "id": "copyright_text",
+        "label": "Additional copyright text"
+      }
+    ]
+  
+  }
+{% endschema %}
